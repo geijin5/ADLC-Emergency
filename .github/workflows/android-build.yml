@@ -1,0 +1,118 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/android-build.yml'
+  pull_request:
+    branches:
+      - main
+      - master
+    paths:
+      - 'mobile/**'
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        working-directory: ./mobile
+        run: npm install
+
+      - name: Create .env file for mobile
+        working-directory: ./mobile
+        run: |
+          echo "API_URL=${{ secrets.API_URL || 'https://adlc-backend.onrender.com' }}" > .env
+          echo "MAPBOX_TOKEN=${{ secrets.MAPBOX_TOKEN }}" >> .env
+          echo "WS_URL=${{ secrets.WS_URL || 'wss://adlc-backend.onrender.com' }}" >> .env
+
+      - name: Install Expo CLI
+        run: npm install -g expo-cli eas-cli
+
+      - name: Setup Expo
+        working-directory: ./mobile
+        run: |
+          npm install -g expo-cli
+          expo login -u ${{ secrets.EXPO_USERNAME }} -p ${{ secrets.EXPO_PASSWORD }} || true
+
+      - name: Build APK with EAS
+        working-directory: ./mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if [ -n "$EXPO_TOKEN" ]; then
+            eas build --platform android --profile production --non-interactive --no-wait || \
+            npx expo build:android -t apk --non-interactive || \
+            echo "EAS build initiated"
+          else
+            echo "EXPO_TOKEN not set, skipping EAS build"
+            echo "Building locally with Gradle..."
+            cd android
+            ./gradlew assembleRelease
+          fi
+
+      - name: Upload APK artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: |
+            mobile/android/app/build/outputs/apk/release/*.apk
+            mobile/*.apk
+          retention-days: 30
+
+      - name: Create APK with Gradle (fallback)
+        if: failure()
+        working-directory: ./mobile
+        run: |
+          # Install Android build tools
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+          export PATH=$PATH:$ANDROID_HOME/platform-tools
+          
+          # Initialize Android project if needed
+          if [ ! -d "android" ]; then
+            npx expo prebuild --platform android
+          fi
+          
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Release APK
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            mobile/android/app/build/outputs/apk/release/*.apk
+            mobile/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

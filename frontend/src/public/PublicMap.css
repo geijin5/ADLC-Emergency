@@ -1,0 +1,54 @@
+.public-map-container {
+  width: 100%;
+  height: calc(100vh - 120px);
+  position: relative;
+}
+
+.map-legend {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 200px;
+}
+
+.map-legend h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  text-transform: capitalize;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.legend-item input[type="checkbox"] {
+  cursor: pointer;
+}
+

@@ -1,0 +1,87 @@
+.personnel-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9fafb;
+}
+
+.personnel-header {
+  background-color: #1f2937;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.personnel-header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.user-info {
+  font-size: 0.875rem;
+  color: #d1d5db;
+}
+
+.btn-logout {
+  padding: 0.5rem 1rem;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #b91c1c;
+}
+
+.personnel-nav {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 2rem;
+  background-color: #374151;
+  border-top: 1px solid #4b5563;
+}
+
+.personnel-nav a {
+  padding: 0.75rem 1rem;
+  color: #d1d5db;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.personnel-nav a:hover,
+.personnel-nav a.active {
+  background-color: #4b5563;
+  border-bottom-color: #60a5fa;
+}
+
+.personnel-main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+

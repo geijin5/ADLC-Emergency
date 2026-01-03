@@ -1,0 +1,57 @@
+.personnel-map-container {
+  width: 100%;
+}
+
+.map-toolbar {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.map-toolbar h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toolbar-actions button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toolbar-actions button:hover {
+  background-color: #f3f4f6;
+}
+
+.toolbar-actions button.active {
+  background-color: #1e40af;
+  color: white;
+  border-color: #1e40af;
+}
+
+.btn-save {
+  background-color: #10b981 !important;
+  color: white !important;
+  border-color: #10b981 !important;
+}
+
+.btn-save:hover {
+  background-color: #059669 !important;
+}
+

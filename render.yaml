@@ -1,0 +1,49 @@
+services:
+  # Backend API Service
+  - type: web
+    name: adlc-backend
+    runtime: node
+    plan: starter
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: MAPBOX_ACCESS_TOKEN
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://adlc-emergency.onrender.com,https://adlc-emergency-frontend.onrender.com
+      - key: WS_PORT
+        value: 10000
+    healthCheckPath: /api/health
+
+  # Frontend Web Service
+  - type: web
+    name: adlc-frontend
+    runtime: node
+    plan: starter
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npx serve -s dist -l 10000
+    envVars:
+      - key: VITE_API_URL
+        value: https://adlc-backend.onrender.com
+      - key: VITE_MAPBOX_TOKEN
+        sync: false
+      - key: VITE_WS_URL
+        value: wss://adlc-backend.onrender.com
+
+  # PostgreSQL Database
+  - type: pspg
+    name: adlc-database
+    plan: starter
+    databaseName: adlc_emergency
+    user: adlc_user
+

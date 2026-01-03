@@ -1,0 +1,29 @@
+.personnel-sar h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1f2937;
+}
+
+.sar-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.sar-content p {
+  margin-bottom: 1rem;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.sar-content ul {
+  margin-left: 2rem;
+  color: #4b5563;
+  line-height: 1.8;
+}
+
+.sar-content li {
+  margin-bottom: 0.5rem;
+}
+

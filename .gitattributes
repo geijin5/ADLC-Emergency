@@ -1,0 +1,35 @@
+* text=auto
+
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Package files
+package.json text
+package-lock.json text
+*.json text
+
+# Source files
+*.ts text
+*.tsx text
+*.js text
+*.jsx text
+
+# Config files
+*.yml text
+*.yaml text
+*.toml text
+
+# Documentation
+*.md text
+*.txt text
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.apk binary
+*.aab binary
+*.keystore binary
+
